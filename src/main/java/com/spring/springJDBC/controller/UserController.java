@@ -40,8 +40,8 @@ public class UserController {
 		
 		// 회원 가입 처리
 		int res = userService.setUserInput(vo);
-		if (res != 0) return "redirect:/message/user/userInputOk";
-		else return "redirect:/message/user/userInputNo";
+		if (res != 0) return "redirect:/message/userInputOk";
+		else return "redirect:/message/userInputNo";
 	}
 	
 }

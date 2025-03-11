@@ -3,6 +3,7 @@ package com.spring.springJDBC.dao;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -49,7 +50,11 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public UserVo getUserIdSearch(String mid) {
 		sql = "select * from user where mid = ?";
-		return jdbcTemplate.queryForObject(sql, rowMapper, mid);
+		try {
+			return jdbcTemplate.queryForObject(sql, rowMapper, mid);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 }
