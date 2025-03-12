@@ -46,11 +46,13 @@ public class UserController {
 		else return "redirect:/message/userInputNo";
 	}
 	
+	// 개별 회원 조회 페이지 열기
 	@RequestMapping(value = "/userSearch", method = RequestMethod.GET )
 	public String userSearchGet() {
 		return "user/userSearch";
 	}
 	
+	// 개별 회원 완전 일치 조회
 	@RequestMapping(value = "/userSearchList", method = RequestMethod.GET)
 	public String userSearchListGet(Model model, String mid) {
 		UserVo vo = userService.getUserIdSearch(mid);
@@ -60,17 +62,18 @@ public class UserController {
 		} else return "redirect:/message/userSearchNo";
 	}
 	
-	// 회원 완전일치 검색 - 1건만 검색 - part에 따른 검색(part : mid/name/address)
+	// 개별 회원 조회 - part에 따른 검색(part : mid/name/address)
 	@RequestMapping(value = "/userSearchPart", method = RequestMethod.GET)
-	public String userSearchPartGet(Model model, String part, String content) {
-		UserVo vo = userService.getUserSearchPart(part, content);
-		if(vo != null) {
-			model.addAttribute("vo", vo);
+	public String userSearchPartGet(Model model, String part, String searchWord) {
+		List<UserVo> vos = userService.getUserSearchPart(part, searchWord);
+		if(vos != null && !vos.isEmpty()) {
+			model.addAttribute("vos", vos);
 			return "user/userSearch";
 		}
 		else return "redirect:/message/userSearchNo";
 	}
 	
+	// 개별 회원 아이디 부분 일치 조회(목록 반환)
 	@RequestMapping(value = "/userSearchListOk", method = RequestMethod.GET)
 	public String userSearchListOkGet(Model model, String mid) {
 		List<UserVo> vos = userService.getUserSearchListOk(mid);
@@ -78,6 +81,7 @@ public class UserController {
 		return "user/userSearch";
 	}
 	
+	// 전체 회원 목록 페이지 요청
 	@RequestMapping(value = "/userList", method = RequestMethod.GET )
 	public String userListGet(Model model) {
 		List<UserVo> vos = userService.getUserList();

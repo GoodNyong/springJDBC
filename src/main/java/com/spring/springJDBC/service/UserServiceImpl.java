@@ -61,8 +61,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserVo getUserSearchPart(String part, String content) {
-		return userDao.getUserSearchPart(part, content);
+	public List<UserVo> getUserSearchPart(String part, String searchWord) {
+		return userDao.getUserSearchPart(part, searchWord);
 	}
 
 }

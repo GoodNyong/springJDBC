@@ -5,58 +5,38 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>userSearch.jsp</title>
+	<title>userSearch2.jsp</title>
 	<jsp:include page="/WEB-INF/views/include/bs5.jsp" />
 	<script type="text/javascript">
 		'use strict';
 		
-		function idSearch(flag) {
-			let mid = document.getElementById("mid").value;
-			if(mid.trim() == ""){
-				alert("검색할 아이디를 입력하세요");
-				document.getElementById("mid").focus();
-			} else{
-				if(flag =='s') location.href = "${ctp}/user/userSearchList?mid="+mid;
-				else location.href = "${ctp}/user/userSearchListOk?mid="+mid;
+		function Search() {
+			let searchWord = document.getElementById("searchWord").value;
+			let part = document.getElementById("part").value;
+			if(searchWord.trim() == "") {
+				alert("검색할 내용을 입력하세요");
+				document.getElementById("searchWord").focus();
+			} else {
+				location.href = "${ctp}/user/userSearchPart?searchWord="+searchWord+"&part="+part;
 			}
 		}
 		
-		function formSearch() {
-	    	let part = document.getElementById("part").value;
-	    	let content = document.getElementById("content").value;
-	    	
-	    	if(content.trim() == "") {
-	    		alert("검색할 내용을 입력하세요");
-	    		document.getElementById("content").focus();
-	    	}
-	    	else {
-	    		location.href = "${ctp}/user/userSearchPart?part="+part+"&content="+content;
-	    	}
-	    }
-		
-		function delCheck(idx) {
-			let ans = confirm("선택하신 회원을 삭제하시겠습니까?");
-			if(!ans) return false;
-			else location.href = "${ctp}/user/userDeleteOk?idx="+idx;
-		}
-		
+				
 		// 테이블 정렬 기능
 		function sortTable(columnIndex) {
 			let table = document.getElementById("userTable");
-			let rows = Array.from(table.rows).slice(1); // 첫 번째 행(헤더) 제외
+			let rows = Array.from(table.rows).slice(1);
 			let ascending = table.getAttribute("data-order") === "asc";
 
-			rows.sort((rowA, rowB) => {
+			rows.sort((rowA, rowB) => { 
 				let cellA = rowA.cells[columnIndex].textContent.trim();
 				let cellB = rowB.cells[columnIndex].textContent.trim();
 
-				// 숫자 여부 확인 후 비교
 				let isNumber = !isNaN(cellA) && !isNaN(cellB);
 				if (isNumber) {
 					return ascending ? cellA - cellB : cellB - cellA;
 				} else {
-					// 한글 정렬을 위해 localeCompare 사용
-					return ascending ? cellA.localeCompare(cellB, 'ko') : cellB.localeCompare(cellA, 'ko');
+					return ascending ? cellA.localeCompare(cellB, 'ko-KR') : cellB.localeCompare(cellA, 'ko-KR');
 				}
 			});
 
@@ -67,7 +47,7 @@
 	</script>
 </head>
 <body>
-<p><br/></p>
+<p>${vos }<br/></p>
 <div class="container"> 
 	<h2>개별 회원 조회</h2>
 	<hr>
@@ -82,17 +62,39 @@
 		</table>
 		<hr>
 	</c:if>
+	<c:if test="${!empty vos }">
+		<table id="userTable" class="table table-hover text-center" data-order="asc">
+			<tr class="table-secondary">
+				<th onclick="sortTable(0)" style="cursor: pointer;">번호</th>
+			<th onclick="sortTable(1)" style="cursor: pointer;">아이디</th>
+			<th>비밀번호</th>
+			<th onclick="sortTable(3)" style="cursor: pointer;">성명</th>
+			<th onclick="sortTable(4)" style="cursor: pointer;">나이</th>
+			<th>성별</th>
+			<th onclick="sortTable(6)" style="cursor: pointer;">주소</th>
+			</tr>
+			<c:forEach var="vo" items="${vos }" varStatus="st">
+				<tr>
+					<td>${vo.idx }</td>
+					<td>${vo.mid }</td>
+					<td>${vo.pwd }</td>
+					<td>${vo.name }</td>
+					<td>${vo.age }</td>
+					<td>${vo.gender }</td>
+					<td>${vo.address }</td>
+				</tr>
+			</c:forEach>
+		</table>		
+	</c:if>
 	<div class="input-group">
-		<div class="input-group-preppend">
-			<select name="part" id="part">
-				<option value="mid">아이디</option>
-				<option value="name">성명</option>
-				<option value="address">주소</option>
-			</select>
-		</div>
-		<input type="text" name="mid" id="mid" placeholder="검색할 내용을 입력하세요" autofocus class="form-controll/">
+		<select name="part" id="part">
+			<option value="mid">아이디</option>
+			<option value="name">성명</option>
+			<option value="address">주소</option>
+		</select>
+		<input type="text" name="searchWord" id="searchWord" placeholder="검색할 내용을 입력하세요" autofocus class="form-controll/">
 		<div class="input-group-append">
-			<input type="button" value="검색(완전일치)" onclick="formSearch()"	class="form-controll btn btn-success"/>
+			<input type="button" value="검색" onclick="Search()"	class="form-controll btn btn-success"/>
 			<input type="button" value="돌아가기" onclick="location.href='${ctp}/user/userMain';" class="btn btn-primary"/>
 		</div>
 	</div>

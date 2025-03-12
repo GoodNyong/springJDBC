@@ -93,9 +93,9 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public UserVo getUserSearchPart(String part, String content) {
-		sql = "";
-		return null;
+	public List<UserVo> getUserSearchPart(String part, String searchWord) {
+		sql = "select * from user where " + part + " like ?";
+		return jdbcTemplate.query(sql, rowMapper, "%" + searchWord + "%");
 	}
 
 }

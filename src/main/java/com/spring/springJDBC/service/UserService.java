@@ -22,6 +22,6 @@ public interface UserService {
 
 	List<UserVo> getUserSearchListOk(String mid);
 
-	UserVo getUserSearchPart(String part, String content);
+	List<UserVo> getUserSearchPart(String part, String content);
 
 }

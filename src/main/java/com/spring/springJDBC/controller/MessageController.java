@@ -26,7 +26,7 @@ public class MessageController {
 			model.addAttribute("url", "user/userInput");
 		}
 		else if(msgFlag.equals("userSearchNo")) {
-			model.addAttribute("message", "아이디가 일치하는 회원이 없습니다.");
+			model.addAttribute("message", "검색한 내용과 일치하는 회원이 없습니다.");
 			model.addAttribute("url", "user/userSearch");
 		}
 		else if(msgFlag.equals("userDeleteOk")) {
