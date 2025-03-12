@@ -11,7 +11,7 @@
     'use strict';
     
     if('${message}' != "") alert("${message}");
-    location.href = "${ctp}${url}";
+    location.href = "${ctp}/${url}";
   </script>
 </head>
 <body>

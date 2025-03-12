@@ -15,16 +15,37 @@ public class MessageController {
 		) {
 		if(msgFlag.equals("userInputOk")) {
 			model.addAttribute("message", "회원에 가입되었습니다.");
-			model.addAttribute("url", "/user/userMain");
+			model.addAttribute("url", "user/userMain");
 		}
 		else if(msgFlag.equals("userInputNo")) {
 			model.addAttribute("message", "회원 가입에 실패하였습니다.");
-			model.addAttribute("url", "/user/userInput");
+			model.addAttribute("url", "user/userInput");
 		}
 		else if(msgFlag.equals("userIdDuplication")) {
 			model.addAttribute("message", "이미 사용중인 아이디 입니다.\\n다른 아이디로 가입해주세요.");
-			model.addAttribute("url", "/user/userInput");
+			model.addAttribute("url", "user/userInput");
 		}
+		else if(msgFlag.equals("userSearchNo")) {
+			model.addAttribute("message", "아이디가 일치하는 회원이 없습니다.");
+			model.addAttribute("url", "user/userSearch");
+		}
+		else if(msgFlag.equals("userDeleteOk")) {
+			model.addAttribute("message", "회원을 삭제처리 하였습니다.");
+			model.addAttribute("url", "user/userList");
+		}
+		else if(msgFlag.equals("userDeleteNo")) {
+			model.addAttribute("message", "회원삭제 실패");
+			model.addAttribute("url", "user/userList");
+		}
+		else if(msgFlag.equals("userUpdateOk")) {
+			model.addAttribute("message", "회원정보 수정 완료");
+			model.addAttribute("url", "user/userList");
+		}
+		else if(msgFlag.equals("userUpdateNo")) {
+			model.addAttribute("message", "회원정보 수정 실패");
+			model.addAttribute("url", "user/userList");
+		}
+		
 		
 		return "include/message";
 	}

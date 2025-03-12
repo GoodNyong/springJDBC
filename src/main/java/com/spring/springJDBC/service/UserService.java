@@ -1,5 +1,7 @@
 package com.spring.springJDBC.service;
 
+import java.util.List;
+
 import com.spring.springJDBC.vo.UserVo;
 
 public interface UserService {
@@ -9,5 +11,17 @@ public interface UserService {
 	int getUserCnt();
 
 	UserVo getUserIdSearch(String mid);
+
+	List<UserVo> getUserList();
+
+	int setUserDeleteOk(int idx);
+
+	UserVo getUserIdxSearch(int idx);
+
+	int setUserUpdate(UserVo vo);
+
+	List<UserVo> getUserSearchListOk(String mid);
+
+	UserVo getUserSearchPart(String part, String content);
 
 }

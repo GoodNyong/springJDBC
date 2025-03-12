@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>.jsp</title>
+	<title>userMain.jsp</title>
 	<jsp:include page="/WEB-INF/views/include/bs5.jsp" />
 </head>
 <body>
@@ -18,7 +18,8 @@
 	<div>
 		<input type="button" value="회원등록" onclick="location.href='${ctp}/user/userInput'" class="btn btn-success me-3">
 		<input type="button" value="회원개별조회" onclick="location.href='${ctp}/user/userSearch'" class="btn btn-primary me-3">
-		<input type="button" value="회원전체조회" onclick="location.href='${ctp}/user/userList'" class="btn btn-secondary">
+		<input type="button" value="회원전체조회" onclick="location.href='${ctp}/user/userList'" class="btn btn-secondary me-3">
+		<input type="button" value="처음으로" onclick="location.href='${ctp}/'" class="btn btn-warning">
 	</div>
 </div>
 <p><br/></p>

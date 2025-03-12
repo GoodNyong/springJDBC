@@ -1,5 +1,7 @@
 package com.spring.springJDBC.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +44,68 @@ public class UserController {
 		int res = userService.setUserInput(vo);
 		if (res != 0) return "redirect:/message/userInputOk";
 		else return "redirect:/message/userInputNo";
+	}
+	
+	@RequestMapping(value = "/userSearch", method = RequestMethod.GET )
+	public String userSearchGet() {
+		return "user/userSearch";
+	}
+	
+	@RequestMapping(value = "/userSearchList", method = RequestMethod.GET)
+	public String userSearchListGet(Model model, String mid) {
+		UserVo vo = userService.getUserIdSearch(mid);
+		if (vo != null) {
+			model.addAttribute("vo", vo);
+			return "user/userSearch";
+		} else return "redirect:/message/userSearchNo";
+	}
+	
+	// 회원 완전일치 검색 - 1건만 검색 - part에 따른 검색(part : mid/name/address)
+	@RequestMapping(value = "/userSearchPart", method = RequestMethod.GET)
+	public String userSearchPartGet(Model model, String part, String content) {
+		UserVo vo = userService.getUserSearchPart(part, content);
+		if(vo != null) {
+			model.addAttribute("vo", vo);
+			return "user/userSearch";
+		}
+		else return "redirect:/message/userSearchNo";
+	}
+	
+	@RequestMapping(value = "/userSearchListOk", method = RequestMethod.GET)
+	public String userSearchListOkGet(Model model, String mid) {
+		List<UserVo> vos = userService.getUserSearchListOk(mid);
+		model.addAttribute("vos", vos);
+		return "user/userSearch";
+	}
+	
+	@RequestMapping(value = "/userList", method = RequestMethod.GET )
+	public String userListGet(Model model) {
+		List<UserVo> vos = userService.getUserList();
+//		System.out.println(vos.toString());
+		model.addAttribute("vos", vos);
+//		System.out.println(model.toString());
+		return "user/userList";
+	}
+	
+	@RequestMapping(value = "/userDeleteOk", method = RequestMethod.GET)
+	public String userDeleteOkGet(int idx) {
+		int res = userService.setUserDeleteOk(idx);
+		if(res != 0) return "redirect:/message/userDeleteOk";
+		else return "redirect:/message/userDeleteNo";
+	}
+	
+	@RequestMapping(value = "/userUpdate", method = RequestMethod.GET)
+	public String userUpdateGet(Model model, int idx) {
+		UserVo vo = userService.getUserIdxSearch(idx);
+		model.addAttribute("vo", vo);
+		return "user/userUpdate";
+	}
+	
+	@RequestMapping(value = "/userUpdate", method = RequestMethod.POST)
+	public String userUpdatePost(Model model, UserVo vo) {
+		int res = userService.setUserUpdate(vo);
+		if(res != 0) return "redirect:/message/userUpdateOk";
+		else return "redirect:/message/userUpdateNo";
 	}
 	
 }
